@@ -16,7 +16,7 @@ class CreateTasksTable extends Migration
         Schema::create('tasks', function (Blueprint $table) {
             $table->id();
             $table->string('input_date');
-            $table->string('project');
+            $table->unsignedBigInteger('project');
 
             $table->string('task_name');
             $table->string('task_detail');
@@ -24,12 +24,17 @@ class CreateTasksTable extends Migration
 
             $table->string('workday');
             $table->string('weekend');
-            $table->string('start_date');
+            $table->string('monthly');
+            $table->string('others');
+            $table->string('yearly');
 
+            $table->string('start_date');
             $table->string('end_date');
-            $table->string('assigned_person');
-            $table->string('assigned_to');
+
+            $table->unsignedBigInteger('assigned_person');
+            $table->unsignedBigInteger('assigned_to');
             $table->string('message');  
+            $table->longText('remark');
             
             $table->string('progress');
             $table->string('status');

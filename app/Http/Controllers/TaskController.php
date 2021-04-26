@@ -37,6 +37,9 @@ class TaskController extends Controller
                 $work="Daily";$week="Na";$start="Na";$end="Na";
                 $task_project->type_task=$type ;
                 $task_project->workday="Daily";
+                $task_project->monthly="Na";
+                $task_project->others="Na";
+                $task_project->yearly="Na";
                 $task_project->weekend="Na";
                 $task_project->start_date="Na";
                 $task_project->end_date="Na";
@@ -46,6 +49,9 @@ class TaskController extends Controller
                 $task_project->type_task=$type ;
                 $task_project->workday="Na";
                 $task_project->weekend=$week;
+                $task_project->monthly="Na";
+                $task_project->others="Na";
+                $task_project->yearly="Na";
                 $task_project->start_date="Na";
                 $task_project->end_date="Na";
             }
@@ -54,7 +60,9 @@ class TaskController extends Controller
                 $task_project->type_task=$type ;
                 $task_project->workday="Na";
                 $task_project->weekend="Na";
-               
+                $task_project->monthly="Monthly";
+                $task_project->others="Na";
+                $task_project->yearly="Na";               
                 $task_project->start_date=$req->start_date;
                 $task_project->end_date=$req->end_date;               
 
@@ -64,7 +72,9 @@ class TaskController extends Controller
                 $task_project->type_task=$type ;
                 $task_project->workday="Na";
                 $task_project->weekend="Na";
-               
+                $task_project->others="Others";
+                $task_project->monthly="Na";  
+                $task_project->yearly="Na";               
                 $task_project->start_date=$req->start_date3;
                 $task_project->end_date=$req->end_date3;     
             }
@@ -73,7 +83,9 @@ class TaskController extends Controller
                 $task_project->type_task=$type ;
                 $task_project->workday="Na";
                 $task_project->weekend="Na";
-               
+                $task_project->yearly="Yearly";
+                $task_project->monthly="Na";
+                $task_project->others="Na";                            
                 $task_project->start_date=$req->start_date4;
                 $task_project->end_date=$req->end_date4;     
             }
@@ -82,11 +94,19 @@ class TaskController extends Controller
             $task_project->project=$req->project;
             $task_project->task_name=$req->task_name;
             $task_project->task_detail=$req->task_detail;
-
             $task_project->assigned_person=$req->assigned_person;
             $task_project->assigned_to=$req->assigned_to;
-            $task_project->message=$req->message;
 
+            $message=$req->message;
+            if($message <>''){
+                $task_project->message=$message;
+                $task_project->remark=$message;
+               }
+               else{
+                $task_project->message="Na";
+                $task_project->remark="Na";
+               }
+           
             $task_project->progress=$req->progress;
             $task_project->status=$req->status;
             $task_project->completedate=$req->completedate;
@@ -99,33 +119,208 @@ class TaskController extends Controller
             return back()->withErrors($valation);
 
         }
-    }  
-    function task(){
-        $tasklist=Task::all();       
+    } 
+    function updateTask($id, Request $req){
+        //return $id;
+        $updateTask=Task::find($id);
 
-        // $assignshow =task::table('tasks')
-        // ->join('assigns','tasks.assigned_person', '=', 'assigns.id')
-        // ->select('tasks.assigned_person', 'assigns.id')
-        // ->get();     
-                        
-        // return view("tasklist", ['task' => $tasklist,'assignshow' => $tasklist]);
-        return view("tasklist", ['task' => $tasklist]);
+        $updateTask->input_date=$req->input_date;
+        $updateTask->project=$req->project;        
+        $updateTask->assigned_person=$req->assigned_person;
+        $updateTask->assigned_to=$req->assigned_to;
+
+        $updateTask->task_name=$req->task_name;
+        $updateTask->task_detail=$req->task_detail;
+
+        
+    if ($req->type_task_edit == "" ) {
+       
+        
+        if ($req->monthly = "Monthly") {
+            $updateTask->monthly="Monthly";
+            $updateTask->start_date=$req->start_date;
+            $updateTask->end_date=$req->end_date;
+        } 
+        elseif ($req->others = "Others") {
+            $updateTask->others="Others";
+            $updateTask->start_date=$req->start_date;
+            $updateTask->end_date=$req->end_date;
+        }
+        elseif ($req->yearly = "Yearly") {
+            $updateTask->yearly="Yearly";
+            $updateTask->start_date=$req->start_date;
+            $updateTask->end_date=$req->end_date;
+        }
+        elseif ($req->workday = "Daily") {
+            $updateTask->workday="Daily";
+        }
+        elseif ($req->weekend <> "") {
+            $updateTask->weekend=$req->weekend;
+        }                       
+        else {
+            
+        }
+      
+    } else {
+
+        $type=$req->type_task_edit;          
+        $week=$req->weekend_edit;
+        $start=$req->start_date_edit;
+        $end=$req->end_date_edit;
+
+        if($type == "Daily"){
+            $work="Daily";$week="Na";$start="Na";$end="Na";
+            $updateTask->type_task=$type ;
+            $updateTask->workday="Daily";
+            $updateTask->monthly="Na";
+            $updateTask->others="Na";
+            $updateTask->yearly="Na";
+            $updateTask->weekend="Na";
+            $updateTask->start_date="Na";
+            $updateTask->end_date="Na";
+        }
+        if($type == "Weekly"){
+            $work="Na";$start="Na";$end="Na";
+            $updateTask->type_task=$type ;
+            $updateTask->workday="Na";
+            $updateTask->weekend=$week;
+            $updateTask->monthly="Na";
+            $updateTask->others="Na";
+            $updateTask->yearly="Na";
+            $updateTask->start_date="Na";
+            $updateTask->end_date="Na";
+        }
+        if($type == "Monthly"){
+            $work="Na";$week="Na";
+            $updateTask->type_task=$type ;
+            $updateTask->workday="Na";
+            $updateTask->weekend="Na";
+            $updateTask->monthly="Monthly";
+            $updateTask->others="Na";
+            $updateTask->yearly="Na";               
+            $updateTask->start_date=$req->start_date_edit;
+            $updateTask->end_date=$req->end_date_edit;               
+
+        }
+        if($type == "Others"){
+            $work="Na";$week="Na";
+            $updateTask->type_task=$type ;
+            $updateTask->workday="Na";
+            $updateTask->weekend="Na";
+            $updateTask->others="Others";
+            $updateTask->monthly="Na";  
+            $updateTask->yearly="Na";               
+            $updateTask->start_date=$req->start_date3_edit;
+            $updateTask->end_date=$req->end_date3_edit;     
+        }
+        if($type == "Yearly"){
+            $work="Na";$week="Na";
+            $updateTask->type_task=$type ;
+            $updateTask->workday="Na";
+            $updateTask->weekend="Na";
+            $updateTask->yearly="Yearly";
+            $updateTask->monthly="Na";
+            $updateTask->others="Na";                            
+            $updateTask->start_date=$req->start_date4_edit;
+            $updateTask->end_date=$req->end_date4_edit;     
+        }
+
+        
+    } 
+    if($req->message_edit <> ''){
+        $updateTask->remark=$req->message_edit;
+       }
+       else{
+        $updateTask->remark="Na";
+       }
+       $updateTask->progress=$req->progress_edit;       
+       if($req->progress_edit  == '100'){
+        $date = Carbon::now();
+        $updateTask->completedate=$date;
+        $updateTask->status="complete";       
+   
+       }elseif($req->progress_edit < '100'){
+        $updateTask->status="In Progress";
+        $updateTask->completedate="Na";
+
+       }
+       elseif($req->progress_edit == '0'){
+        $updateTask->status="Not Started";
+        $updateTask->completedate="Na";
+
+       }
+       else{
+        $updateTask->status="On Hold";
+        $updateTask->completedate="Na";
+
+       }       
+
+        $updateTask->update();
+        return back()->with("success", "Successfully updated.");
+    }   
+    function deleteTask($id){
+        $deleteTask = Task::find($id);
+        $deleteTask->delete();
+        return back()->with("delete", "$deleteTask->task_name 's Name is deleted");
+    }   
+
+    function task(Request $request){
+    $searching = Task::all();
+            $select_data = Task::where( function($query) use($request){
+                             return $request->project ?
+                                    $query->from('project')->where('id',$request->project) : '';
+                        })
+                        ->where(function($query) use($request){
+                             return $request->assign ?
+                                    $query->from('assign')->where('id',$request->assign) : '';
+                        })
+                        ->with('project','assign')
+                        ->get();
+             
+            $selected_id = [];
+            $selected_id['project'] = $request->project;
+            $selected_id['assign'] = $request->assign;
+        
+            return view('tasklist',compact('select_data','selected_id','searching'));
+            // return view('tasklist',['tasks' => $tasks,'searching' => $searching,'selected_id' => $selected_id]);
+    // return view('tasklist',['tasks' => $tasks,'searching' => $searching,'selected_id' => $selected_id]);
 
     }
-    function update(){
+    function editTask($id){
+        // return $id;
+        // return view("edit");
+         $editTask = Task::find($id);
+   
+         $projectselect_edit=Project::all();
+         $assignselect_edit=Assign::all();
+         $assigntoselect_edit=Assignto::all();
 
+        return view("editTask",['editTask'=> $editTask,'projectselect_edit' => $projectselect_edit,'assignselect_edit' => $assignselect_edit,'assigntoselect_edit' => $assigntoselect_edit]);
+    }
+
+    function update(){
+        $weekMap = [
+           
+            0 => 'Sunday',
+            1 => 'Monday',
+            2 => 'Tuesday',
+            3 => 'Wednesday',
+            4 => 'Thursday',
+            5 => 'Friday',
+            6 => 'Saturday',
+        ];
         // $updatetoday=Task::all();        
-        
+        $dayOfTheWeek = Carbon::now()->dayOfWeek;
+        $weekday = $weekMap[$dayOfTheWeek];
         $updatetoday = Task::where('start_date', '<=', Carbon::now())
-        ->where('end_date', '>=', Carbon::now())
-        ->where('workday', '=', "Daily")
+        ->Where('end_date', '>=', Carbon::now())
+        ->orwhere('workday', '=', "Daily")
+        ->orwhere("weekend", "=", $weekday)
         ->get();
 
-        // $updatetoday = Task::whereRaw('(now() between start_date and end_date)')
-        // ->where('workday', '=', 'Daily')->get();
-
         return view("update", ['update' => $updatetoday]);
-    }   
+    }  
+   
     function edit($id){
         // return $id;
         // return view("update");
@@ -135,36 +330,55 @@ class TaskController extends Controller
   
     function comfirmupdate($id, Request $req){
         // return $id;
+        $valation=$req->validate([
+            'progress'=>"required"
+        ]);
+    if($valation){
 
        $task_project=Task::find($id);
        $task_project->progress=$req->progress;
        $test_progress=$req->progress;
-       $task_project->progress=$req->progress;
+       $remark=$req->remark;
+
+       if($remark <> ''){
+        $task_project->remark=$remark;
+       }
+       else{
+        $task_project->remark="Na";
+       }
+
        if($test_progress == '100'){
+        $date = Carbon::now();
+        $task_project->completedate=$date;
         $task_project->status="complete";
        
-        $date = Carbon::now();
+        
         $task_project->completedate=$date;
        }elseif($test_progress < '100'){
         $task_project->status="In Progress";
-        $task_project->completedate="NA";
+        $task_project->completedate="Na";
 
        }
        elseif($test_progress == '0'){
         $task_project->status="Not Started";
-        $task_project->completedate="NA";
+        $task_project->completedate="Na";
 
        }
        else{
         $task_project->status="On Hold";
-        $task_project->completedate="NA";
+        $task_project->completedate="Na";
 
        }
         // return $task_project;
 
         $task_project->update();
-        return redirect()->route('complete');
+        return back()->with("success", "Successfully Comfirmed.");
+        // return redirect()->route('complete');
+       }
+        else{
+            return back()->withErrors($valation);
 
+        }
     }
    
     function complete(){      
@@ -173,7 +387,9 @@ class TaskController extends Controller
         return view("completelist", ['complete' => $tasklist]);
     }
     function pending(){      
-        $tasklist = Task::where('progress', '<', 100)->get();    
+        $tasklist = Task::where('progress', '<', 100)
+        ->where('progress', '!=', "Na")        
+        ->get();    
         // return $tasklist;
         return view("pendinglist", ['pending' => $tasklist]);
     }   
@@ -253,11 +469,13 @@ class TaskController extends Controller
         // return view('index');
         $valation=$req->validate([
             'project_name'=>"required"
+            
 
         ]);
         if($valation){
             $task_project = new Project();
             $task_project->project_name=$req->project_name;
+            
 
             $task_project->save();
             return back()->with("success", "Successfully added.");
@@ -288,7 +506,8 @@ class TaskController extends Controller
 
         return view("index", ['projectselect' => $projectselect,'assignselect' => $assignselect,'assignto' => $assignto]);
     }  
-   
+
+      
 
     function editAssignperson($id){
         // return $id;
@@ -353,4 +572,6 @@ class TaskController extends Controller
         $deleteproject->delete();
         return back()->with("delete", "$deleteproject->project_name 's Name is deleted");
     }
+
+
 }

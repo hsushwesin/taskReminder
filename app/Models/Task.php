@@ -11,11 +11,20 @@ class Task extends Model
     protected $fillable = ['input_date','project','task_name','task_detail','type_task','workday',
     'weekend','start_date','end_date','assigned_person',
     'assigned_to','message','progress','status','completedate'];
-    // public function Assign()    {
+    
+    
+    public function assign(){
+        return $this->belongsTo(Assign::class,"assigned_person");
 
-    //     return $this->belongsTo('App\Models\Assign');
-        
-    // }
+    }
+    public function assignto(){
+        return $this->belongsTo(Assignto::class,"assigned_to");
+    }
+    public function project(){
+        return $this->belongsTo(Project::class,"project");
+    }         
+       
+
 
 
 }

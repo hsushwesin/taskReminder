@@ -23,7 +23,6 @@
                 <input type="text" id="" class="form-control" name="project_name">
                 <label for="Project Name">Project Name</label>
             </div>
-
             <!-- Send button -->
             <button class="btn btn-indigo btn-block z-depth-0 my-4 waves-effect" type="submit">Save</button>
 

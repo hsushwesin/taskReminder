@@ -21,7 +21,7 @@
         @csrf
             <div class="md-form mt-4">
                 <input type="text" id="" class="form-control" name="to">
-                <label for="Assign Person Name">Assign Person Name</label>
+                <label for="Assign To Name">Assign To Name</label>
             </div>
 
             <div class="md-form mt-4">

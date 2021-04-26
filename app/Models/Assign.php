@@ -9,8 +9,5 @@ class Assign extends Model
 {
     use HasFactory;
     protected $fillable = ['person','id_number','position'];
-    // public function Task()
-    // {
-    //     return $this->hasMany('App\Models\Task');
-    // }
+
 }

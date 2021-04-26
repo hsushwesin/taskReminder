@@ -1,12 +1,14 @@
 <?php
 
 use App\Http\Controllers\TaskController;
+use App\Models\Task;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Http\Request;
 
 Route::get('/', [TaskController::class, "index"])->name("home");
 
 Route::post('/inserts',[TaskController::class,"inserts"])->name("inserts");
-
+Route::get('/task-filtering', [TaskController::class,"indexFiltering"])->name("indexFiltering");
 Route::get('/tasklist', [TaskController::class, "task"])->name("task");
 
 Route::get('/update', [TaskController::class, "update"])->name("update");
@@ -48,3 +50,12 @@ Route::post('/project/update/{id}',[TaskController::class, 'updateproject'])->na
 Route::get('/project/{id}', [TaskController::class,"deleteproject"])->name("deleteproject");
 
 Route::get('/', [TaskController::class, "projectselect"])->name("home");
+
+Route::get('/update/editTask/{id}', [TaskController::class, "editTask"])->name("editTask");
+Route::post('/update/update/{id}',[TaskController::class, 'updateTask'])->name("updateTask");
+Route::get('/delete/deleteTask/{id}', [TaskController::class, "deleteTask"])->name("deleteTask");
+
+
+
+
+

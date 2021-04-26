@@ -8,7 +8,12 @@
 <link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.0/css/bootstrap.min.css" rel="stylesheet">
 <!-- Material Design Bootstrap -->
 <link href="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.19.1/css/mdb.min.css" rel="stylesheet">
-  <nav class="navbar top navbar-expand-lg navbar-dark indigo scrolling-navbar">
+
+<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.1.4/toastr.min.css">
+
+
+
+  <nav class="navbar top navbar-expand-lg navbar-dark pink scrolling-navbar sticky-top">
     <a class="navbar-brand" href="#"><strong>Task Reminder and Recorder</strong></a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
       aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -17,7 +22,7 @@
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
       <ul class="navbar-nav mr-auto">
         <li class="nav-item">
-          <a class="nav-link" href="{{route('update')}}">Today To do List</a>
+          <a class="nav-link" href="{{route('update') }}">Today To do List</a>
         </li>
         <li class="nav-item">
           <a class="nav-link" href="{{route('complete')}}">Completed Task</a>
@@ -77,3 +82,14 @@
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.0/js/bootstrap.min.js"></script>
 <!-- MDB core JavaScript -->
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.19.1/js/mdb.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.1.4/toastr.min.js"></script>
+<script>
+@if (Session('message'))
+let message="{{Session('message')}}"
+toastr.success(message);    
+@endif
+@if (Session('errors'))
+let message="{{Session('errors')}}"
+toastr.error(message);    
+@endif
+</script>
